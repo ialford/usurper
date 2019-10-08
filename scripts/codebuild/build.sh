@@ -20,9 +20,13 @@ export BUILD_PATH=$(cd '../../build'; pwd)
 
 echo -e "\n${blue}Deploying with cdk...${reset}"
 npm run -- cdk deploy $STACK_NAME \
+  -c stage="$STAGE" \
   -c usurperBuildPath="$BUILD_PATH" \
   -c contact=$CONTACT \
   -c owner=$OWNER \
+  -c createDns=$CREATE_DNS \
+  -c domainStackName=$DOMAIN_STACK_NAME \
+  -c hostnamePrefix=$HOSTNAME_PREFIX \
   --require-approval=$APPROVAL \
   --exclusively "$@" \
   || { echo "CDK deployment failed"; exit 1; }
