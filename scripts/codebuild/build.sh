@@ -9,6 +9,15 @@ echo "${magenta}----- BUILD -----${reset}"
 echo -e "\n${blue}Building code...${reset}"
 yarn build --production || { echo "Build failed"; exit 1; }
 
+# upload source maps to sentry (unless local deploy)
+# ignore prep because prep generally builds before the version number is incremented... This means it would
+# overwrite the source maps from the latest production deploy, which is not what we want.
+if [ ${LOCAL_DEPLOY:=false} != true ] && [ $STAGE != "prep" ]
+then
+  VERSION=$(cat VERSION)
+  yarn sentry-cli releases files usurper@$VERSION upload-sourcemaps ./build --validate --no-rewrite
+fi
+
 cd deploy/blueprints
 if [ ${LOCAL_DEPLOY:=false} = true ]
 then
