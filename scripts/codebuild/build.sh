@@ -9,6 +9,13 @@ echo "${magenta}----- BUILD -----${reset}"
 echo -e "\n${blue}Building code...${reset}"
 yarn build --production || { echo "Build failed"; exit 1; }
 
+# upload source maps to sentry (unless local deploy)
+if [ ${LOCAL_DEPLOY:=false} != true ]
+then
+  VERSION=$(cat VERSION)
+  yarn sentry-cli releases files usurper@$VERSION upload-sourcemaps ./build --validate --no-rewrite
+fi
+
 cd deploy/blueprints
 if [ ${LOCAL_DEPLOY:=false} = true ]
 then
