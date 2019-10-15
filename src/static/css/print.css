@@ -2,7 +2,8 @@
 	* {
 		font-family: sans-serif !important;
 	}
-	.top, #footer-links, #footer-info, .floor-info p, .floor-info h3, .floorplan .sp-address, .floorplan p, .floorplan h3, .floorplan .sp-address {
+	
+	.top, #footer-links, #footer-info, .floor-info p, .floor-info h3, .floorplan .sp-address {
 		display: none;
 	}
 
