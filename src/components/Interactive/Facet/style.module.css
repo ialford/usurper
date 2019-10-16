@@ -1,0 +1,31 @@
+.facets .header {
+  background-color: #0C2340;
+  color: #fff;
+  display: inline-block;
+  line-height: 20px;
+  padding: 10px 20px;
+  margin: 0;
+  font-size: 1em;
+  font-family: GPMed, sans-serif;
+  width: 100%;
+}
+
+.facets .optionsBox {
+  display: block;
+  font-size: 1.1em;
+  text-decoration: none;
+}
+
+.optionsBox .option {
+  display: flex;
+  padding: 2px 4px;
+}
+
+.option .linkText {
+  color: #417D8B;
+  text-decoration: none;
+  padding: 4px;
+}
+.linkText:hover, .linkText:active {
+  background: rgba(0, 0, 0, .1);
+}

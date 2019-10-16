@@ -9,8 +9,15 @@ import Presenter from './presenter'
 
 import { fetchAllEvents } from 'actions/contentful/allEvents'
 import * as statuses from 'constants/APIStatuses'
+import * as helper from 'constants/HelperFunctions'
 
 export class CurrentEventsContainer extends Component {
+  constructor (props) {
+    super(props)
+
+    this.onAudienceFilterApply = this.onAudienceFilterApply.bind(this)
+  }
+
   componentDidMount () {
     const preview = (new URLSearchParams(this.props.location.search)).get('preview') === 'true'
     if (this.props.allEventsStatus === statuses.NOT_FETCHED) {
@@ -18,8 +25,16 @@ export class CurrentEventsContainer extends Component {
     }
   }
 
+  onAudienceFilterApply (selection) {
+    const queryString = helper.buildQueryString(this.props.location.search, 'audience', selection)
+    this.props.history.push(this.props.location.pathname + queryString)
+  }
+
   render () {
-    return <Presenter {...this.props} />
+    return <Presenter
+      {...this.props}
+      onAudienceFilterApply={this.onAudienceFilterApply}
+    />
   }
 }
 
@@ -50,6 +65,16 @@ export const mapStateToProps = (state, ownProps) => {
     return start === dateString || end === dateString || (start < dateString && end >= dateString)
   }) : events
 
+  // Get audience filter
+  const audienceFilter = []
+  const queryParams = ownProps.location.search.replace('?', '').split('&')
+  queryParams.forEach(param => {
+    const split = decodeURIComponent(param).split('=')
+    if (split[0].toLowerCase() === 'audience') {
+      audienceFilter.push(split[1])
+    }
+  })
+
   return {
     pageTitle,
     pageDate,
@@ -57,6 +82,7 @@ export const mapStateToProps = (state, ownProps) => {
     events,
     filteredEvents,
     allEventsStatus: allEvents.status,
+    audienceFilter,
   }
 }
 
@@ -77,7 +103,11 @@ CurrentEventsContainer.propTypes = {
       PropTypes.string,
       PropTypes.object,
     ]),
-  }),
+    pathname: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 const CurrentEvents = connect(mapStateToProps, mapDispatchToProps)(CurrentEventsContainer)

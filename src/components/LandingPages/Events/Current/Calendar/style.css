@@ -1,0 +1,8 @@
+.sidebarCalendar {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.sidebarCalendar .react-datepicker__month-container {
+  width: 100%;
+}

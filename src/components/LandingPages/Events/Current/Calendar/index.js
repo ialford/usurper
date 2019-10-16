@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import './style.css'
 
 const EventCalendar = (props) => {
   const selectedDate = props.match.params.date ? moment(props.match.params.date, 'YYYYMMDD').toDate() : null
@@ -45,6 +46,7 @@ const EventCalendar = (props) => {
       highlightDates={specialDays}
       minDate={new Date()}
       color='#ffd102'
+      calendarClassName='sidebarCalendar'
     />
   )
 }
