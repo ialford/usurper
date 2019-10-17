@@ -38,7 +38,7 @@ const DatabaseSummaryContainer = (props) => {
       linkObject={linkObject}
       isFavorited={isFavorited}
       favoritesData={favoritesData}
-      applySubjectFilter={(subject) => props.onSubjectFilterApply([ subject ])}
+      applySubjectFilter={(subjectId) => props.onSubjectFilterApply('subject', [ subjectId ])}
     />
   )
 }
