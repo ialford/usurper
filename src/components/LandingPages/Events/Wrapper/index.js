@@ -21,7 +21,7 @@ export class EventsWrapperContainer extends Component {
     }
 
     this.onFilterChange = this.onFilterChange.bind(this)
-    this.onAudienceFilterApply = this.onAudienceFilterApply.bind(this)
+    this.onFacetApply = this.onFacetApply.bind(this)
   }
 
   static getDerivedStateFromProps (props, state) {
@@ -66,8 +66,8 @@ export class EventsWrapperContainer extends Component {
     })
   }
 
-  onAudienceFilterApply (selection) {
-    const queryString = helper.buildQueryString(this.props.location.search, 'audience', selection)
+  onFacetApply (facetName, selection) {
+    const queryString = helper.buildQueryString(this.props.location.search, facetName, selection)
     this.props.history.push(this.props.location.pathname + queryString)
   }
 
@@ -81,7 +81,7 @@ export class EventsWrapperContainer extends Component {
           onFilterChange: this.onFilterChange,
           filterValue: this.state.filterValue,
           pageTitle: this.state.pageTitle,
-          onAudienceFilterApply: this.onAudienceFilterApply,
+          onFacetApply: this.onFacetApply,
         }}
         status={this.props.allEventsStatus}
       />
@@ -92,19 +92,23 @@ export class EventsWrapperContainer extends Component {
 export const mapStateToProps = (state, ownProps) => {
   const { allEvents } = state
 
-  // Get audience filter
+  // Get facets from query string
   const audienceFilter = []
+  const typeFilter = []
   const queryParams = ownProps.location.search.replace('?', '').split('&')
   queryParams.forEach(param => {
     const split = decodeURIComponent(param).split('=')
     if (split[0].toLowerCase() === 'audience') {
       audienceFilter.push(split[1])
+    } else if (split[0].toLowerCase() === 'type') {
+      typeFilter.push(split[1])
     }
   })
 
   return {
     allEventsStatus: allEvents.status,
     audienceFilter,
+    typeFilter,
   }
 }
 

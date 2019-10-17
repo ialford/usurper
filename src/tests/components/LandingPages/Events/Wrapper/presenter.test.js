@@ -59,8 +59,9 @@ describe('components/LandingPages/Events/Wrapper/presenter', () => {
       ],
       onFilterChange: jest.fn(),
       filterValue: 'test',
-      onAudienceFilterApply: jest.fn(),
+      onFacetApply: jest.fn(),
       audienceFilter: ['Epic Programmers'],
+      typeFilter: ['Uber Programs'],
       children: children,
     }
     enzymeWrapper = setup(props)
@@ -95,8 +96,14 @@ describe('components/LandingPages/Events/Wrapper/presenter', () => {
   })
 
   it('should render a facet selector for audience', () => {
-    const facet = enzymeWrapper.findWhere(el => el.type() === Facet && el.props().label === 'Audience')
+    const facet = enzymeWrapper.findWhere(el => el.type() === Facet && el.props().name === 'audience')
     expect(facet.exists()).toBe(true)
     expect(facet.props().selectedValues).toEqual(props.audienceFilter)
+  })
+
+  it('should render a facet selector for event type', () => {
+    const facet = enzymeWrapper.findWhere(el => el.type() === Facet && el.props().name === 'type')
+    expect(facet.exists()).toBe(true)
+    expect(facet.props().selectedValues).toEqual(props.typeFilter)
   })
 })

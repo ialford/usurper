@@ -25,6 +25,21 @@ const AUDIENCES = [
   value: value,
 }))
 
+const TYPES = [
+  'Discussion',
+  'Exhibit',
+  'Hands-On Lab',
+  'Lecture/Seminar',
+  'Postdocs',
+  'Research/Writing Camp',
+  'Workshop',
+  'Study Break',
+  'Special Event',
+].map(value => ({
+  key: value,
+  value: value,
+}))
+
 const Presenter = (props) => {
   return (
     <div className='content'>
@@ -49,12 +64,20 @@ const Presenter = (props) => {
         <div className='col-md-4 col-sm-5 col-xs-12 right'>
           { props.children }
           { Config.features.subjectFilteringEnabled && (
-            <Facet
-              label='Audience'
-              options={AUDIENCES}
-              selectedValues={props.audienceFilter}
-              onChangeCallback={props.onAudienceFilterApply}
-            />
+            <React.Fragment>
+              <Facet
+                name='audience'
+                options={AUDIENCES}
+                selectedValues={props.audienceFilter}
+                onChangeCallback={props.onFacetApply}
+              />
+              <Facet
+                name='type'
+                options={TYPES}
+                selectedValues={props.typeFilter}
+                onChangeCallback={props.onFacetApply}
+              />
+            </React.Fragment>
           )}
         </div>
       </div>
@@ -69,8 +92,9 @@ Presenter.propTypes = {
   events: PropTypes.array,
   onFilterChange: PropTypes.func.isRequired,
   filterValue: PropTypes.string,
-  onAudienceFilterApply: PropTypes.func.isRequired,
+  onFacetApply: PropTypes.func.isRequired,
   audienceFilter: PropTypes.array,
+  typeFilter: PropTypes.array,
   children: PropTypes.any,
 }
 

@@ -121,7 +121,7 @@ describe('components/DatabaseList/presenter.js', () => {
     })
 
     it('should render a facet selector for subjects', () => {
-      const facet = enzymeWrapper.findWhere(el => el.type() === Facet && el.props().label === 'Subject')
+      const facet = enzymeWrapper.findWhere(el => el.type() === Facet && el.props().name === 'subject')
       expect(facet.exists()).toBe(true)
       expect(facet.props().options).toEqual([
         {

@@ -51,7 +51,7 @@ const Loaded = (props) => {
           <Alphabet history={props.history} onLetterFilterApply={props.onLetterFilterApply} />
           { Config.features.subjectFilteringEnabled && (
             <Facet
-              label='Subject'
+              name='subject'
               options={props.subjects.map(subject => ({
                 key: subject.sys.id,
                 value: subject.linkText,

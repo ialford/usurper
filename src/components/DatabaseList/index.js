@@ -128,8 +128,8 @@ export class DatabaseListContainer extends Component {
     }, 1500)
   }
 
-  onSubjectFilterApply (selection) {
-    const queryString = helper.buildQueryString(this.props.location.search, 'subject', selection)
+  onSubjectFilterApply (filterName, selection) {
+    const queryString = helper.buildQueryString(this.props.location.search, filterName, selection)
     this.props.history.push(this.props.location.pathname + queryString)
   }
 
@@ -140,7 +140,7 @@ export class DatabaseListContainer extends Component {
 
   removeSubjectFromFilter (subjectId) {
     const newSubjectIds = this.props.activeSubjects.filter(activeSubject => activeSubject !== subjectId)
-    this.onSubjectFilterApply(newSubjectIds)
+    this.onSubjectFilterApply('subject', newSubjectIds)
   }
 
   removeLetterFilter () {

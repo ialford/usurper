@@ -166,3 +166,14 @@ export const buildQueryString = (existingQuery, key, values) => {
   })
   return queryString
 }
+
+// Simple title casing which will capitalize first letter of every word
+// Does not account for articles which are not typically capitalized in titles
+export const titleCase = (string) => {
+  const words = []
+  const split = string.toLowerCase().split(' ')
+  split.forEach(word => {
+    words.push(word.charAt(0).toUpperCase() + word.slice(1))
+  })
+  return words.join(' ')
+}

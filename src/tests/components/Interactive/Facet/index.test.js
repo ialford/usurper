@@ -42,6 +42,7 @@ describe('components/Interactive/Facet', () => {
 
   beforeEach(() => {
     props = {
+      name: 'facet',
       label: 'Some Facet',
       options: [
         facet2,
@@ -80,22 +81,26 @@ describe('components/Interactive/Facet', () => {
       const instance = enzymeWrapper.instance()
       instance.onFacetChange(newFacet)
 
-      expect(props.onChangeCallback).toHaveBeenCalledWith(expect.arrayContaining([
-        facet1.key,
-        facet2.key,
-        facet3.key,
-        newFacet.key,
-      ]))
+      expect(props.onChangeCallback).toHaveBeenCalledWith(props.name,
+        expect.arrayContaining([
+          facet1.key,
+          facet2.key,
+          facet3.key,
+          newFacet.key,
+        ])
+      )
     })
 
     it('should remove item when already active', () => {
       const instance = enzymeWrapper.instance()
       instance.onFacetChange(facet2)
 
-      expect(props.onChangeCallback).toHaveBeenCalledWith([
-        facet1.key,
-        facet3.key,
-      ])
+      expect(props.onChangeCallback).toHaveBeenCalledWith(props.name,
+        [
+          facet1.key,
+          facet3.key,
+        ]
+      )
     })
   })
 })

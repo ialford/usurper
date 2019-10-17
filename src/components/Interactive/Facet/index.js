@@ -21,7 +21,7 @@ export class Facet extends Component {
       newValues.push(changed.key)
     }
 
-    this.props.onChangeCallback(newValues)
+    this.props.onChangeCallback(this.props.name.toLowerCase(), newValues)
   }
 
   render () {
@@ -35,7 +35,7 @@ export class Facet extends Component {
 
     return (
       <Presenter
-        label={this.props.label}
+        label={this.props.label || helper.titleCase(this.props.name)}
         options={displayOptions}
         onFacetChange={this.onFacetChange}
       />
@@ -44,7 +44,8 @@ export class Facet extends Component {
 }
 
 Facet.propTypes = {
-  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
