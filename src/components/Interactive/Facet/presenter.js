@@ -23,9 +23,9 @@ const Presenter = (props) => {
                 onChange={() => props.onFacetChange(option)}
                 checked={option.selected}
               />
-              <span className={'link-like ' + styles.linkText} tabIndex={0} onClick={() => props.onFacetChange(option)}>
+              <button className={'custom-style link-like ' + styles.linkText} tabIndex={0} onClick={() => props.onFacetChange(option)}>
                 {option.value}
-              </span>
+              </button>
             </div>
           ))
         }

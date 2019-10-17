@@ -45,18 +45,26 @@
 .itemTag {
   border-radius: 16px;
   display: inline-block;
-  padding: 6px;
+  padding: 5px;
   margin: 0.25em;
   color: #fff;
   background: #417d8b;
   border: none;
+  font-family: Helvetica, Arial, Verdana, sans-serif;
 }
 .itemTag:hover {
   background-color: rgba(0, 0, 0, 0.1);
+  color: #417D8B;
   cursor: pointer;
 }
 .itemTag.small {
   font-size: 0.8em;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.itemTag span {
+  padding-left: 2px;
+  padding-right: 10px;
 }
 
 .dbLink li, .dbLink li a {
