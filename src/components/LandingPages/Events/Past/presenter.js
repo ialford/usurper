@@ -7,7 +7,7 @@ import EventsWrapper from '../Wrapper'
 const Presenter = (props) => {
   return (
     <EventsWrapper
-      linkPath='/events'
+      linkPath={'/events' + props.location.search}
       linkText='Current Events'
       pageTitle={props.pageTitle}
       pageDate={props.pageDate}
@@ -16,7 +16,12 @@ const Presenter = (props) => {
       location={props.location}
       history={props.history}
     >
-      <DateFilter events={props.events} filterYear={props.filterYear} filterMonth={props.filterMonth} />
+      <DateFilter
+        events={props.events}
+        filterYear={props.filterYear}
+        filterMonth={props.filterMonth}
+        location={props.location}
+      />
     </EventsWrapper>
   )
 }
@@ -28,7 +33,9 @@ Presenter.propTypes = {
   filteredEvents: PropTypes.array.isRequired,
   filterYear: PropTypes.number,
   filterMonth: PropTypes.number,
-  location: PropTypes.object,
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }),
   history: PropTypes.object,
 }
 
