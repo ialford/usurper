@@ -29,6 +29,12 @@ describe('components/LandingPages/Events/Wrapper', () => {
       events: [],
       filteredEvents: [],
       allEventsStatus: statuses.SUCCESS,
+      location: {
+        search: '',
+      },
+      history: {
+        push: jest.fn(),
+      },
     }
     enzymeWrapper = setup(props)
   })
@@ -92,16 +98,46 @@ describe('components/LandingPages/Events/Wrapper', () => {
     expect(enzymeWrapper.props().props.filterValue).toEqual('')
   })
 
+  it('should update history when filtering audience', () => {
+    const instance = enzymeWrapper.instance()
+    instance.onAudienceFilterApply(['Epic Developer'])
+    expect(props.history.push).toHaveBeenCalled()
+  })
+
   describe('mapStateToProps', () => {
+    beforeEach(() => {
+      props = {
+        location: {
+          search: '?preview=false&audience=me&audience=you'
+        },
+        history: {
+          push: jest.fn(),
+        },
+      }
+    })
     it('should get events loading status from store', () => {
       const status = statuses.FETCHING
-      const result = mapStateToProps({
+      const state = {
         allEvents: {
           status: status,
           json: [],
         },
-      })
+      }
+      const result = mapStateToProps(state, props)
       expect(result.allEventsStatus).toEqual(status)
+    })
+
+    it('should get audience filter from query string', () => {
+      const state = {
+        allEvents: {
+          status: statuses.SUCCESS,
+          json: [],
+        },
+      }
+      const result = mapStateToProps(state, props)
+      const expected = ['you', 'me']
+      expect(result.audienceFilter).toEqual(expect.arrayContaining(expected))
+      expect(result.audienceFilter).toHaveLength(expected.length)
     })
   })
 })

@@ -6,8 +6,24 @@ import PageTitle from 'components/Layout/PageTitle'
 import SearchProgramaticSet from 'components/SearchProgramaticSet'
 import Link from 'components/Interactive/Link'
 import FilterBox from 'components/Interactive/FilterBox'
+import Facet from 'components/Interactive/Facet'
+
+import Config from 'shared/Configuration'
 
 import './style.css'
+
+// These should exactly match the validations in the Contentful model
+const AUDIENCES = [
+  'Undergraduates',
+  'Graduate Students',
+  'Faculty',
+  'Staff',
+  'Postdocs',
+  'Public, Alumni, & Friends',
+].map(value => ({ // Facet expects key value pairs, but in this case the display value and key are the same
+  key: value,
+  value: value,
+}))
 
 const Presenter = (props) => {
   return (
@@ -30,7 +46,17 @@ const Presenter = (props) => {
             )
           }
         </div>
-        {props.children}
+        <div className='col-md-4 col-sm-5 col-xs-12 right'>
+          { props.children }
+          { Config.features.subjectFilteringEnabled && (
+            <Facet
+              label='Audience'
+              options={AUDIENCES}
+              selectedValues={props.audienceFilter}
+              onChangeCallback={props.onAudienceFilterApply}
+            />
+          )}
+        </div>
       </div>
     </div>
   )
@@ -43,6 +69,8 @@ Presenter.propTypes = {
   events: PropTypes.array,
   onFilterChange: PropTypes.func.isRequired,
   filterValue: PropTypes.string,
+  onAudienceFilterApply: PropTypes.func.isRequired,
+  audienceFilter: PropTypes.array,
   children: PropTypes.any,
 }
 

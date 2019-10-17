@@ -21,6 +21,7 @@ export class EventsWrapperContainer extends Component {
     }
 
     this.onFilterChange = this.onFilterChange.bind(this)
+    this.onAudienceFilterApply = this.onAudienceFilterApply.bind(this)
   }
 
   static getDerivedStateFromProps (props, state) {
@@ -65,6 +66,11 @@ export class EventsWrapperContainer extends Component {
     })
   }
 
+  onAudienceFilterApply (selection) {
+    const queryString = helper.buildQueryString(this.props.location.search, 'audience', selection)
+    this.props.history.push(this.props.location.pathname + queryString)
+  }
+
   render () {
     return (
       <PresenterFactory
@@ -75,6 +81,7 @@ export class EventsWrapperContainer extends Component {
           onFilterChange: this.onFilterChange,
           filterValue: this.state.filterValue,
           pageTitle: this.state.pageTitle,
+          onAudienceFilterApply: this.onAudienceFilterApply,
         }}
         status={this.props.allEventsStatus}
       />
@@ -82,11 +89,22 @@ export class EventsWrapperContainer extends Component {
   }
 }
 
-export const mapStateToProps = (state) => {
+export const mapStateToProps = (state, ownProps) => {
   const { allEvents } = state
+
+  // Get audience filter
+  const audienceFilter = []
+  const queryParams = ownProps.location.search.replace('?', '').split('&')
+  queryParams.forEach(param => {
+    const split = decodeURIComponent(param).split('=')
+    if (split[0].toLowerCase() === 'audience') {
+      audienceFilter.push(split[1])
+    }
+  })
 
   return {
     allEventsStatus: allEvents.status,
+    audienceFilter,
   }
 }
 
@@ -96,6 +114,16 @@ EventsWrapperContainer.propTypes = {
   filteredEvents: PropTypes.array,
   pageDate: PropTypes.string,
   allEventsStatus: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+    ]),
+    pathname: PropTypes.string,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
 const EventsWrapper = connect(mapStateToProps)(EventsWrapperContainer)

@@ -4,7 +4,6 @@ import { shallow } from 'enzyme'
 import Presenter from 'components/LandingPages/Events/Current/presenter'
 import Calendar from 'components/LandingPages/Events/Current/Calendar'
 import EventsWrapper from 'components/LandingPages/Events/Wrapper'
-import Facet from 'components/Interactive/Facet'
 
 let enzymeWrapper
 let props
@@ -20,7 +19,6 @@ describe('components/LandingPages/Events/Current/presenter', () => {
   })
 
   beforeEach(() => {
-    global.__APP_CONFIG__.features.subjectFilteringEnabled = true
     const someEvent = {
       id: 'some event',
       slug: 'somewhere',
@@ -41,8 +39,6 @@ describe('components/LandingPages/Events/Current/presenter', () => {
       filteredEvents: [
         someEvent,
       ],
-      onAudienceFilterApply: jest.fn(),
-      audienceFilter: ['Epic Programmers'],
       history: {},
       match: {
         params: {},
@@ -73,11 +69,5 @@ describe('components/LandingPages/Events/Current/presenter', () => {
       />
     )).toBe(true)
     expect(props.events.length).toBeGreaterThan(0)
-  })
-
-  it('should render a facet selector for audience', () => {
-    const facet = enzymeWrapper.findWhere(el => el.type() === Facet && el.props().label === 'Audience')
-    expect(facet.exists()).toBe(true)
-    expect(facet.props().selectedValues).toEqual(props.audienceFilter)
   })
 })

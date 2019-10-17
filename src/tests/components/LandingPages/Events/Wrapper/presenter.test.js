@@ -6,6 +6,7 @@ import EventCard from 'components/EventCard'
 import PageTitle from 'components/Layout/PageTitle'
 import Link from 'components/Interactive/Link'
 import FilterBox from 'components/Interactive/FilterBox'
+import Facet from 'components/Interactive/Facet'
 
 let enzymeWrapper
 let props
@@ -45,6 +46,7 @@ describe('components/LandingPages/Events/Wrapper/presenter', () => {
   })
 
   beforeEach(() => {
+    global.__APP_CONFIG__.features.subjectFilteringEnabled = true
     props = {
       linkPath: '/down/the',
       linkText: 'Rabbit Hole',
@@ -57,6 +59,8 @@ describe('components/LandingPages/Events/Wrapper/presenter', () => {
       ],
       onFilterChange: jest.fn(),
       filterValue: 'test',
+      onAudienceFilterApply: jest.fn(),
+      audienceFilter: ['Epic Programmers'],
       children: children,
     }
     enzymeWrapper = setup(props)
@@ -88,5 +92,11 @@ describe('components/LandingPages/Events/Wrapper/presenter', () => {
 
   it('should render link as provided in props', () => {
     expect(enzymeWrapper.containsMatchingElement(<Link to={props.linkPath}>{props.linkText}</Link>)).toBe(true)
+  })
+
+  it('should render a facet selector for audience', () => {
+    const facet = enzymeWrapper.findWhere(el => el.type() === Facet && el.props().label === 'Audience')
+    expect(facet.exists()).toBe(true)
+    expect(facet.props().selectedValues).toEqual(props.audienceFilter)
   })
 })
