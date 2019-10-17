@@ -4,6 +4,7 @@ import Link from 'components/Interactive/Link'
 import FavoriteIcon from 'components/Account/Favorites/FavoriteIcon'
 import { KIND } from 'actions/personal/favorites'
 import SummaryLink from './SummaryLink'
+import Tags from 'components/Interactive/Tags'
 
 import styles from '../../style.module.css'
 
@@ -14,15 +15,14 @@ const DatabaseSummary = (props) => {
       <Link to={props.linkObject.heading.url} title={'Go to ' + props.item.fields.title} className='inline'>
         <h3 className={styles.dbItemTitle}>{props.item.fields.title}</h3>
       </Link>
-      { props.item.fields.subjects.length > 0 && (
-        <div aria-label='subjects'>
-          {props.item.fields.subjects.map(subject => (
-            <span key={subject.sys.id} className={[styles.itemTag, styles.small].join(' ')} onClick={() => props.applySubjectFilter(subject.sys.id)}>
-              {subject.linkText}
-            </span>
-          ))}
-        </div>
-      )}
+      <Tags
+        items={props.item.fields.subjects.map(subject => ({
+          key: subject.sys.id,
+          value: subject.linkText,
+        }))}
+        onClick={(pair) => props.applySubjectFilter(pair.key)}
+        ariaLabel='subjects'
+      />
       <div className={styles.dbSummary}>
         {props.linkObject.heading.description}
       </div>

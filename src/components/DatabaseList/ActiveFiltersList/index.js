@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Tags from 'components/Interactive/Tags'
 import * as helper from 'constants/HelperFunctions'
 
 import parentStyles from '../style.module.css'
-import clearIcon from 'static/images/clear-icon.svg'
 
 const ActiveFiltersList = (props) => {
   const sortedList = helper.sortList(props.subjects, 'linkText', 'asc')
@@ -13,30 +13,31 @@ const ActiveFiltersList = (props) => {
       { props.letter && (
         <div>
           <span className={parentStyles.activeFiltersLabel}>Name Starts With:</span>
-          <span
-            className={parentStyles.itemTag}
+          <Tags
+            items={[
+              {
+                key: props.letter,
+                value: props.letter.toUpperCase(),
+              },
+            ]}
             onClick={props.removeLetterFilter}
-            title={`Click to remove filter: Starts with ${props.letter.toUpperCase()}`}
-          >
-            <img src={clearIcon} className={parentStyles.clearIcon} alt='X' />
-            <span>{props.letter.toUpperCase()}</span>
-          </span>
+            inline
+            hasRemove
+          />
         </div>
       )}
       { props.subjects.length > 0 && (
         <div>
           <span className={parentStyles.activeFiltersLabel}>Active Subject Filters:</span>
-          { sortedList.map(subject => (
-            <span
-              key={subject.sys.id}
-              className={parentStyles.itemTag}
-              onClick={() => props.removeSubjectFromFilter(subject.sys.id)}
-              title={`Click to remove subject: ${subject.linkText}`}
-            >
-              <img src={clearIcon} className={parentStyles.clearIcon} alt='X' />
-              <span>{subject.linkText}</span>
-            </span>
-          ))}
+          <Tags
+            items={sortedList.map(subject => ({
+              key: subject.sys.id,
+              value: subject.linkText,
+            }))}
+            onClick={(pair) => props.removeSubjectFromFilter(pair.key)}
+            inline
+            hasRemove
+          />
         </div>
       )}
     </div>
