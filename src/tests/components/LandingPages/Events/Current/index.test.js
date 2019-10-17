@@ -38,6 +38,9 @@ describe('components/LandingPages/Events/Current', () => {
             date: '20190907',
           },
         },
+        history: {
+          push: jest.fn(),
+        },
         fetchAllEvents: jest.fn(),
       }
       enzymeWrapper = setup(props)
@@ -64,6 +67,9 @@ describe('components/LandingPages/Events/Current', () => {
             date: '20190907',
           },
         },
+        history: {
+          push: jest.fn(),
+        },
         fetchAllEvents: jest.fn(),
       }
       enzymeWrapper = setup(props)
@@ -72,11 +78,20 @@ describe('components/LandingPages/Events/Current', () => {
     it('should not call fetchAllEvents', () => {
       expect(props.fetchAllEvents).not.toHaveBeenCalled()
     })
+
+    it('should update history when filtering audience', () => {
+      const instance = enzymeWrapper.instance()
+      instance.onAudienceFilterApply(['Epic Developer'])
+      expect(enzymeWrapper.props().history.push).toHaveBeenCalled()
+    })
   })
 
   describe('mapStateToProps', () => {
     beforeEach(() => {
       props = {
+        location: {
+          search: '?preview=false&audience=me&audience=you'
+        },
         match: {
           params: {
             date: null,
@@ -108,6 +123,9 @@ describe('components/LandingPages/Events/Current', () => {
         (todayDate.getMonth() + 1).toString().padStart(2, '0') +
         todayDate.getDate().toString().padStart(2, '0')
       props = {
+        location: {
+          search: ''
+        },
         match: {
           params: {
             date: todayDateString,
@@ -144,6 +162,19 @@ describe('components/LandingPages/Events/Current', () => {
         filteredEvents: [],
         allEventsStatus: state.allEvents.status,
       }))
+    })
+
+    it('should get audience filter from query string', () => {
+      const state = {
+        allEvents: {
+          status: statuses.SUCCESS,
+          json: testData.allTestEvents,
+        },
+      }
+      const result = mapStateToProps(state, props)
+      const expected = ['you', 'me']
+      expect(result.audienceFilter).toEqual(expect.arrayContaining(expected))
+      expect(result.audienceFilter).toHaveLength(expected.length)
     })
   })
 

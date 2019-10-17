@@ -251,11 +251,7 @@ describe('components/DatabaseList/index.js', () => {
 
       it('should update history when filtering subjects', () => {
         const instance = enzymeWrapper.instance()
-        instance.onSubjectFilterApply([
-          {
-            sys: { id: 'spanish' },
-          },
-        ])
+        instance.onSubjectFilterApply(['spanish'])
         expect(enzymeWrapper.props().history.push).toHaveBeenCalled()
       })
 
