@@ -1,0 +1,10 @@
+.eventType {
+  display: inline-block;
+  background-color: #417d8b;
+  border-radius: 5px;
+  color: #fff;
+  margin-top: 5px;
+  padding: 2px 5px;
+  font-size: 0.75em;
+  text-transform: uppercase;
+}

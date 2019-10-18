@@ -51,7 +51,7 @@ const Presenter = (props) => {
           <FilterBox value={props.filterValue} title='Search Events' onChange={props.onFilterChange} />
           <br />
           { props.events.map((event, index) => (
-            <EventCard key={event.id} entry={event} isLast={index === props.events.length - 1} />
+            <EventCard key={event.id} entry={event} isLast={index === props.events.length - 1} onTagClick={props.onFacetApply} />
           ))}
           {
             props.filterValue && props.events.length === 50 && (

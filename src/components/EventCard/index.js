@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import typy from 'typy'
 
 import LibMarkdown from 'components/LibMarkdown'
 import Image from 'components/Image'
 import Link from 'components/Interactive/Link'
+import Tags from 'components/Interactive/Tags'
 
-const EventCard = ({ entry, isLast, showDescription, showImage }) => {
+import styles from './style.module.css'
+
+const EventCard = ({ entry, isLast, showDescription, showImage, showTags, onTagClick }) => {
   return (
     <div className='event-card' itemScope itemType='http://schema.org/Event'>
       <Link
@@ -30,6 +34,9 @@ const EventCard = ({ entry, isLast, showDescription, showImage }) => {
           </div>
         )}
         <h2 itemProp='name'>{entry.title}</h2>
+        { entry.type && (
+          <div className={styles.eventType}>{entry.type}</div>
+        )}
 
         { showDescription && (
           <div className='description' itemProp='description'>
@@ -37,6 +44,16 @@ const EventCard = ({ entry, isLast, showDescription, showImage }) => {
           </div>
         )}
       </Link>
+      { showTags && (
+        <Tags
+          items={typy(entry.audience).safeArray.map(displayName => ({
+            key: displayName,
+            value: displayName,
+          }))}
+          onClick={(pair) => onTagClick('audience', [ pair.key ])}
+          ariaLabel='audience'
+        />
+      )}
       { !isLast && <hr /> }
     </div>
   )
@@ -51,16 +68,21 @@ EventCard.propTypes = {
     displayTime: PropTypes.string,
     locationText: PropTypes.string,
     representationalImage: PropTypes.object,
+    audience: PropTypes.arrayOf(PropTypes.string),
+    type: PropTypes.string,
   }).isRequired,
   isLast: PropTypes.bool,
   showDescription: PropTypes.bool,
   showImage: PropTypes.bool,
+  showTags: PropTypes.bool,
+  onTagClick: PropTypes.func,
 }
 
 EventCard.defaultProps = {
   isLast: false,
   showDescription: true,
   showImage: true,
+  showTags: true,
 }
 
 export default EventCard
