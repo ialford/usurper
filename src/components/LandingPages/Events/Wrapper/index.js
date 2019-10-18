@@ -15,6 +15,7 @@ export class EventsWrapperContainer extends Component {
 
     this.onFilterChange = this.onFilterChange.bind(this)
     this.onFacetApply = this.onFacetApply.bind(this)
+    this.onFacetRemove = this.onFacetRemove.bind(this)
     this.filter = this.filter.bind(this)
 
     this.state = {
@@ -87,6 +88,16 @@ export class EventsWrapperContainer extends Component {
     })
   }
 
+  onFacetRemove (facetName, valueToRemove) {
+    if (facetName === 'audience') {
+      const newFilter = this.props.audienceFilter.filter(value => value !== valueToRemove)
+      this.onFacetApply('audience', newFilter)
+    } else if (facetName === 'type') {
+      const newFilter = this.props.typeFilter.filter(value => value !== valueToRemove)
+      this.onFacetApply('type', newFilter)
+    }
+  }
+
   render () {
     return (
       <PresenterFactory
@@ -98,6 +109,7 @@ export class EventsWrapperContainer extends Component {
           filterValue: this.state.filterValue,
           pageTitle: this.state.pageTitle,
           onFacetApply: this.onFacetApply,
+          onFacetRemove: this.onFacetRemove,
         }}
         status={this.props.allEventsStatus}
       />

@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import typy from 'typy'
+
 import Link from 'components/Interactive/Link'
 import FavoriteIcon from 'components/Account/Favorites/FavoriteIcon'
 import { KIND } from 'actions/personal/favorites'
@@ -9,20 +11,24 @@ import Tags from 'components/Interactive/Tags'
 import styles from '../../style.module.css'
 
 const DatabaseSummary = (props) => {
+  const subjectTags = () => {
+    const clickHandler = (tag) => {
+      props.applySubjectFilter(tag.key)
+    }
+    return typy(props.item, 'fields.subjects').safeArray.map(subject => ({
+      key: subject.sys.id,
+      value: subject.linkText,
+      onClick: clickHandler,
+    }))
+  }
+
   return (
     <section aria-label={props.item.fields.title} className={styles.dbSection}>
       <FavoriteIcon kind={KIND.databases} data={props.favoritesData} isFavorited={props.isFavorited} />
       <Link to={props.linkObject.heading.url} title={'Go to ' + props.item.fields.title} className='inline'>
         <h3 className={styles.dbItemTitle}>{props.item.fields.title}</h3>
       </Link>
-      <Tags
-        items={props.item.fields.subjects.map(subject => ({
-          key: subject.sys.id,
-          value: subject.linkText,
-        }))}
-        onClick={(pair) => props.applySubjectFilter(pair.key)}
-        ariaLabel='subjects'
-      />
+      <Tags groups={subjectTags()} />
       <div className={styles.dbSummary}>
         {props.linkObject.heading.description}
       </div>

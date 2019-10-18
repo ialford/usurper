@@ -4,42 +4,28 @@ import PropTypes from 'prop-types'
 import Tags from 'components/Interactive/Tags'
 import * as helper from 'constants/HelperFunctions'
 
-import parentStyles from '../style.module.css'
-
 const ActiveFiltersList = (props) => {
   const sortedList = helper.sortList(props.subjects, 'linkText', 'asc')
+  const subjectTags = () => {
+    const clickHandler = (tag) => {
+      props.removeSubjectFromFilter(tag.key)
+    }
+    return sortedList.map(subject => ({
+      key: subject.sys.id,
+      value: subject.linkText,
+      onClick: clickHandler,
+    }))
+  }
+  const letterTag = props.letter ? {
+    key: props.letter,
+    value: `Starts With: ${props.letter.toUpperCase()}`,
+    onClick: props.removeLetterFilter,
+  } : null
+
   return (
-    <div className={parentStyles.activeFilters}>
-      { props.letter && (
-        <div>
-          <span className={parentStyles.activeFiltersLabel}>Name Starts With:</span>
-          <Tags
-            items={[
-              {
-                key: props.letter,
-                value: props.letter.toUpperCase(),
-              },
-            ]}
-            onClick={props.removeLetterFilter}
-            inline
-            hasRemove
-          />
-        </div>
-      )}
-      { props.subjects.length > 0 && (
-        <div>
-          <span className={parentStyles.activeFiltersLabel}>Active Subject Filters:</span>
-          <Tags
-            items={sortedList.map(subject => ({
-              key: subject.sys.id,
-              value: subject.linkText,
-            }))}
-            onClick={(pair) => props.removeSubjectFromFilter(pair.key)}
-            inline
-            hasRemove
-          />
-        </div>
-      )}
+    <div className='activeFilters'>
+      <span className='activeFiltersLabel'>Active Filters:</span>
+      <Tags groups={[letterTag, subjectTags()]} inline hasRemove />
     </div>
   )
 }

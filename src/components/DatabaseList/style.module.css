@@ -85,22 +85,6 @@
   background: rgba(0, 0, 0, .3)
 }
 
-.activeFilters {
-  background-color: #fff;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
-  padding: 6px;
-}
-
-.activeFiltersLabel {
-  font-weight: bold;
-  margin-left: 6px;
-}
-
-.activeFilters .itemTag span {
-  position: relative;
-  top: 0.1em;
-}
-
 .navHeader {
   background-color: #0C2340;
   color: #fff;

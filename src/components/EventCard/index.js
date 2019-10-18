@@ -12,6 +12,23 @@ import './style.css'
 const EventCard = ({ entry, isLast, showDescription, showImage, showTags, onTagClick }) => {
   const linkAriaLabel = entry.title + ' on ' + entry.displayDate + ' at ' + entry.displayTime
   const linkPath = '/event/' + entry.slug
+
+  const audienceTags = () => {
+    const clickHandler = (tag) => {
+      onTagClick('audience', [ tag.key ])
+    }
+    return typy(entry.audience).safeArray.map(displayName => ({
+      key: displayName,
+      value: displayName,
+      onClick: clickHandler,
+    }))
+  }
+  const typeTag = entry.type ? {
+    key: entry.type,
+    value: entry.type,
+    onClick: (tag) => onTagClick('type', [ tag.key ]),
+  } : null
+
   return (
     <React.Fragment>
       <div className='event-card' itemScope itemType='http://schema.org/Event' itemProp='mainEntityOfPage'>
@@ -38,8 +55,8 @@ const EventCard = ({ entry, isLast, showDescription, showImage, showTags, onTagC
               </div>
             )}
             <h2 itemProp='name'>{entry.title}</h2>
-            { entry.type && (
-              <div className='event-type'>{entry.type}</div>
+            { entry.recurring && (
+              <div className='event-recurring'>Recurring</div>
             )}
 
             { showDescription && (
@@ -49,14 +66,7 @@ const EventCard = ({ entry, isLast, showDescription, showImage, showTags, onTagC
             )}
           </Link>
           { showTags && (
-            <Tags
-              items={typy(entry.audience).safeArray.map(displayName => ({
-                key: displayName,
-                value: displayName,
-              }))}
-              onClick={(pair) => onTagClick('audience', [ pair.key ])}
-              ariaLabel='audience'
-            />
+            <Tags groups={[typeTag, audienceTags()]} />
           )}
         </div>
       </div>

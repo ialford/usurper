@@ -3991,6 +3991,17 @@ section.group .modal-footer button {
   margin-top: 2rem;
 }
 
+.activeFilters {
+  background-color: #fff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  padding: 6px;
+}
+
+.activeFiltersLabel {
+  font-weight: bold;
+  margin-left: 6px;
+}
+
 @media only screen and (min-width: 48em) {
   .subject-checkbox-container span {
     overflow: hidden;

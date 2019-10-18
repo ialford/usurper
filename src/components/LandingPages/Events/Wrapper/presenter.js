@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ActiveFilters from './ActiveFilters'
 import EventCard from 'components/EventCard'
 import PageTitle from 'components/Layout/PageTitle'
 import SearchProgramaticSet from 'components/SearchProgramaticSet'
@@ -30,7 +31,6 @@ const TYPES = [
   'Exhibit',
   'Hands-On Lab',
   'Lecture/Seminar',
-  'Postdocs',
   'Research/Writing Camp',
   'Workshop',
   'Study Break',
@@ -49,6 +49,9 @@ const Presenter = (props) => {
       <div className='row'>
         <div className='col-md-8 col-sm-7 col-xs-12 events-list'>
           <FilterBox value={props.filterValue} title='Search Events' onChange={props.onFilterChange} />
+          { (props.audienceFilter.length > 0 || props.typeFilter.length > 0) && (
+            <ActiveFilters audienceFilter={props.audienceFilter} typeFilter={props.typeFilter} onRemove={props.onFacetRemove} />
+          )}
           <br />
           { props.events.map((event, index) => (
             <EventCard key={event.id} entry={event} isLast={index === props.events.length - 1} onTagClick={props.onFacetApply} />
@@ -93,6 +96,7 @@ Presenter.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
   filterValue: PropTypes.string,
   onFacetApply: PropTypes.func.isRequired,
+  onFacetRemove: PropTypes.func.isRequired,
   audienceFilter: PropTypes.array,
   typeFilter: PropTypes.array,
   children: PropTypes.any,

@@ -65,8 +65,9 @@ const sortInternal = (a, b, sortKeys, sortDir) => {
   const direction = (sortDir.toLowerCase() === 'desc' ? -1 : 1)
   const sortKey = sortKeys[0] // Expect an array. We'll call the function recursively if we need to go past first key
 
-  const aValue = typy(a, sortKey).safeObject
-  const bValue = typy(b, sortKey).safeObject
+  // If no sort key is provided, assume these are simple types and can be compared directly
+  const aValue = sortKey ? typy(a, sortKey).safeObject : a
+  const bValue = sortKey ? typy(b, sortKey).safeObject : b
   // If one of them is null or undefined, a direct string comparison won't work right...
   if (typy(aValue).isNullOrUndefined || typy(bValue).isNullOrUndefined) {
     result = (!!aValue - !!bValue) * direction // falsy values will be given lower priority in asc and higher in desc
@@ -96,7 +97,7 @@ export const sortList = (list, sortKeys, sortDir) => {
   if (!Array.isArray(sortKeys)) {
     sortKeys = [ sortKeys ]
   }
-  return list.sort((a, b) => sortInternal(a, b, sortKeys, sortDir))
+  return list.sort((a, b) => sortInternal(a, b, sortKeys, sortDir || 'asc'))
 }
 
 export const filterAndSort = (list, filterFields, filterValue, exactMatch, sortKey, sortDir) => {
