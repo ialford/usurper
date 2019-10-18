@@ -146,8 +146,8 @@ EventsWrapperContainer.propTypes = {
   filteredEvents: PropTypes.array,
   pageDate: PropTypes.string,
   allEventsStatus: PropTypes.string.isRequired,
-  audienceFilter: PropTypes.arrayOf(PropTypes.string),
-  typeFilter: PropTypes.arrayOf(PropTypes.string),
+  audienceFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
+  typeFilter: PropTypes.arrayOf(PropTypes.string).isRequired,
   location: PropTypes.shape({
     search: PropTypes.oneOfType([
       PropTypes.string,

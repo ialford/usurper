@@ -58,7 +58,7 @@ describe('components/Interactive/Facet/presenter.js', () => {
   it('should render each option in props', () => {
     expect(props.options.length).toBeGreaterThan(0)
     props.options.forEach(option => {
-      expect(enzymeWrapper.containsMatchingElement(<span>{option.value}</span>)).toBe(true)
+      expect(enzymeWrapper.containsMatchingElement(<button>{option.value}</button>)).toBe(true)
     })
   })
 

@@ -60,6 +60,7 @@ describe('components/LandingPages/Events/Wrapper/presenter', () => {
       onFilterChange: jest.fn(),
       filterValue: 'test',
       onFacetApply: jest.fn(),
+      onFacetRemove: jest.fn(),
       audienceFilter: ['Epic Programmers'],
       typeFilter: ['Uber Programs'],
       children: children,

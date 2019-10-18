@@ -42,6 +42,9 @@ describe('components/LandingPages/Events/Past/presenter', () => {
       ],
       filterYear: 2019,
       filterMonth: 8,
+      location: {
+        search: '?type=test',
+      },
     }
     enzymeWrapper = setup(props)
   })
@@ -62,7 +65,7 @@ describe('components/LandingPages/Events/Past/presenter', () => {
     expect(wrapper.exists()).toBe(true)
 
     expect(wrapper.containsMatchingElement(
-      <DateFilter events={props.events} filterYear={props.filterYear} filterMonth={props.filterMonth} />
+      <DateFilter events={props.events} filterYear={props.filterYear} filterMonth={props.filterMonth} location={props.location} />
     )).toBe(true)
     // Make sure those props actually had values otherwise we can't verify it is passing anything
     expect(props.events.length).toBeGreaterThan(0)
