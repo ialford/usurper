@@ -20,14 +20,14 @@ const EventCard = ({ entry, isLast, showDescription, showImage, showTags, onTagC
         <div itemProp='location' itemScope itemType='http://schema.org/Place' hidden>
           <meta itemProp='address' content={entry.locationText} />
         </div>
-        <div>
+        <div className='card-image'>
           { showImage && (
-            <Link ariaLabel={linkAriaLabel} to={linkPath} className='card-image'>
+            <Link ariaLabel={linkAriaLabel} to={linkPath}>
               <Image cfImage={entry.representationalImage} itemProp='image' />
             </Link>
           )}
         </div>
-        <div>
+        <div className='card-text'>
           <Link ariaLabel={linkAriaLabel} to={linkPath}>
             <div className='date'>
               {entry.displayDate}

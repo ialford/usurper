@@ -2,14 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Link from 'components/Interactive/Link'
+import Accordion from 'components/Interactive/Accordion'
+
 import styles from './style.module.css'
 
 const DateFilter = (props) => {
   return (
     <aside aria-label='Select archived month to display' role='navigation' className={styles.dateFilter}>
-      <div className='group'>
-        <span className='nav-header'>Archive</span>
-        <ul className={styles.archive}>
+      <Accordion
+        className='group'
+        header='Archive'
+        headerClassName='nav-header'
+        bodyClassName={styles.archive}
+        mobileOnly
+        defaultExpanded
+      >
+        <ul>
           {
             Object.keys(props.eventDates).reverse().map((year) => {
               return (
@@ -34,7 +42,7 @@ const DateFilter = (props) => {
             })
           }
         </ul>
-      </div>
+      </Accordion>
     </aside>
   )
 }

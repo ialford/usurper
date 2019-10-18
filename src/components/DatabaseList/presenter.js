@@ -28,7 +28,7 @@ const Loaded = (props) => {
       <OpenGraph title={titleLabel} description={openGraphDesc} image={false} />
       <SearchProgramaticSet open={false} />
       <div className='row'>
-        <div className={'col-xs-12 col-md-8 ' + styles.content}>
+        <div className={'col-xs-12 col-md-8 col-sm-7 ' + styles.content}>
           <FilterBox
             htag='2'
             title='Search Databases by Title'
@@ -47,7 +47,7 @@ const Loaded = (props) => {
           )}
           <Databases titleLabel={titleLabel} subjectFilter={props.activeSubjects} {...props} />
         </div>
-        <div className={'col-xs-12 col-md-4 ' + styles.sideNav}>
+        <div className={'col-xs-12 col-md-4 col-sm-5 ' + styles.sideNav}>
           <Alphabet history={props.history} onLetterFilterApply={props.onLetterFilterApply} />
           { Config.features.subjectFilteringEnabled && (
             <Facet

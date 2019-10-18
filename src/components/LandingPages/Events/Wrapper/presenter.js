@@ -47,7 +47,7 @@ const Presenter = (props) => {
       <PageTitle title={props.pageTitle} />
       <SearchProgramaticSet open={false} />
       <div className='row'>
-        <div className='col-md-8 col-sm-7 col-xs-12'>
+        <div className='col-md-8 col-sm-7 col-xs-12 events-list'>
           <FilterBox value={props.filterValue} title='Search Events' onChange={props.onFilterChange} />
           <br />
           { props.events.map((event, index) => (
@@ -61,7 +61,7 @@ const Presenter = (props) => {
             )
           }
         </div>
-        <div className='col-md-4 col-sm-5 col-xs-12 right'>
+        <div className='col-md-4 col-sm-5 col-xs-12 right events-sidebar'>
           { props.children }
           { Config.features.subjectFilteringEnabled && (
             <React.Fragment>

@@ -56,6 +56,16 @@
   margin-bottom: 36px;
 }
 
+.card-image {
+  display: none;
+}
+
+@media only screen and (min-width: 62em) {
+  .card-image {
+    display: block;
+  }
+}
+
 .card-divider {
   margin: 40px auto 21px;
   border-color: #c6cbd6;
