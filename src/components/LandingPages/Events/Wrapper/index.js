@@ -13,15 +13,16 @@ export class EventsWrapperContainer extends Component {
   constructor (props) {
     super(props)
 
+    this.onFilterChange = this.onFilterChange.bind(this)
+    this.onFacetApply = this.onFacetApply.bind(this)
+    this.filter = this.filter.bind(this)
+
     this.state = {
-      events: helper.sortList(props.filteredEvents, 'startDate', 'asc'),
+      events: this.filter(),
       pageTitle: props.pageTitle,
       pageDate: props.pageDate,
       filterValue: '',
     }
-
-    this.onFilterChange = this.onFilterChange.bind(this)
-    this.onFacetApply = this.onFacetApply.bind(this)
   }
 
   static getDerivedStateFromProps (props, state) {
@@ -43,32 +44,47 @@ export class EventsWrapperContainer extends Component {
     }
   }
 
-  onFilterChange (e) {
-    const value = typy(e, 'target.value').safeString
-
-    if (!value) {
-      this.setState({
-        events: helper.sortList(this.props.filteredEvents, 'startDate', 'asc'),
-        filterValue: '',
-        pageTitle: this.props.pageTitle,
+  filter (searchFilter, audienceFilter, typeFilter) {
+    // If there is a search value, search all events regardless of selected date or month
+    let events = searchFilter ? this.props.events : this.props.filteredEvents
+    // Filter by facets
+    audienceFilter = audienceFilter || this.props.audienceFilter
+    if (audienceFilter.length) {
+      events = events.filter(event => {
+        return audienceFilter.some(currentAudience => typy(event.audience).safeArray.includes(currentAudience))
       })
-      return
     }
+    typeFilter = typeFilter || this.props.typeFilter
+    if (typeFilter.length) {
+      events = events.filter(event => typeFilter.includes(event.type))
+    }
+    // If searching, filter by search value and limit to 50 results
+    if (searchFilter) {
+      const searchFields = ['title', 'content', 'shortDescription', 'audience[*]', 'type[*]', 'presenters[*].fields.people[*].fields.name']
+      events = helper.filterList(events, searchFields, searchFilter, false).slice(0, 50)
+    }
+    return helper.sortList(events, 'startDate', 'asc')
+  }
 
-    const searchFields = ['title', 'content', 'shortDescription', 'audience[*]', 'type[*]', 'presenters[*].fields.people[*].fields.name']
-    // filter to events that have the search value in any of the specified fields
-    const events = helper.filterAndSort(this.props.events, searchFields, value, false, 'startDate', 'asc').slice(0, 50)
+  onFilterChange (e, audienceFilter, typeFilter) {
+    const searchValue = typy(e, 'target.value').safeString
 
     this.setState({
-      events: events,
-      filterValue: value,
-      pageTitle: 'Search for "' + value + '"',
+      events: this.filter(searchValue, audienceFilter, typeFilter),
+      filterValue: searchValue,
+      pageTitle: searchValue ? `Search for "${searchValue}"` : this.props.pageTitle,
     })
   }
 
   onFacetApply (facetName, selection) {
     const queryString = helper.buildQueryString(this.props.location.search, facetName, selection)
     this.props.history.push(this.props.location.pathname + queryString)
+    // Trigger an update to the filter the same as if the search bar changed
+    const audienceFilter = facetName === 'audience' ? selection : this.props.audienceFilter
+    const typeFilter = facetName === 'type' ? selection : this.props.typeFilter
+    this.setState({
+      events: this.filter(this.state.filterValue, audienceFilter, typeFilter),
+    })
   }
 
   render () {
@@ -118,6 +134,8 @@ EventsWrapperContainer.propTypes = {
   filteredEvents: PropTypes.array,
   pageDate: PropTypes.string,
   allEventsStatus: PropTypes.string.isRequired,
+  audienceFilter: PropTypes.arrayOf(PropTypes.string),
+  typeFilter: PropTypes.arrayOf(PropTypes.string),
   location: PropTypes.shape({
     search: PropTypes.oneOfType([
       PropTypes.string,
