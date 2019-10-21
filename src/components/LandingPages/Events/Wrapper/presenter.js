@@ -66,22 +66,18 @@ const Presenter = (props) => {
         </div>
         <div className='col-md-4 col-sm-5 col-xs-12 right events-sidebar'>
           { props.children }
-          { Config.features.subjectFilteringEnabled && (
-            <React.Fragment>
-              <Facet
-                name='audience'
-                options={AUDIENCES}
-                selectedValues={props.audienceFilter}
-                onChangeCallback={props.onFacetApply}
-              />
-              <Facet
-                name='type'
-                options={TYPES}
-                selectedValues={props.typeFilter}
-                onChangeCallback={props.onFacetApply}
-              />
-            </React.Fragment>
-          )}
+          <Facet
+            name='audience'
+            options={AUDIENCES}
+            selectedValues={props.audienceFilter}
+            onChangeCallback={props.onFacetApply}
+          />
+          <Facet
+            name='type'
+            options={TYPES}
+            selectedValues={props.typeFilter}
+            onChangeCallback={props.onFacetApply}
+          />
         </div>
       </div>
     </div>
