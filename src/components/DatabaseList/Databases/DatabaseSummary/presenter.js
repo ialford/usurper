@@ -4,10 +4,14 @@ import Link from 'components/Interactive/Link'
 import FavoriteIcon from 'components/Account/Favorites/FavoriteIcon'
 import { KIND } from 'actions/personal/favorites'
 import SummaryLink from './SummaryLink'
+import { multidisciplinarySubject } from 'constants/staticData'
 
 import styles from '../../style.module.css'
 
 const DatabaseSummary = (props) => {
+  const subjectTags = props.item.fields.subjects.includes(multidisciplinarySubject)
+    ? [multidisciplinarySubject]
+    : props.item.fields.subjects
   return (
     <section aria-label={props.item.fields.title} className={styles.dbSection}>
       <FavoriteIcon kind={KIND.databases} data={props.favoritesData} isFavorited={props.isFavorited} />
@@ -16,7 +20,7 @@ const DatabaseSummary = (props) => {
       </Link>
       { props.item.fields.subjects.length > 0 && (
         <div aria-label='subjects'>
-          {props.item.fields.subjects.map(subject => (
+          {subjectTags.map(subject => (
             <span key={subject.sys.id} className={[styles.itemTag, styles.small].join(' ')} onClick={() => props.applySubjectFilter(subject)}>
               {subject.linkText}
             </span>
