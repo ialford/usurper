@@ -7,7 +7,7 @@ import LibMarkdown from 'components/LibMarkdown'
 import styles from './style.module.css'
 
 const Alert = ({ alerts, hiddenIds, clearHiddenAlerts, hideAlert }) => {
-  // Only allow hiding if the function was passed in (I.e. only for global alerts)
+  // Only allow hiding if the function was passed in (I.e. only for global alerts and while logged in)
   const canHide = !!(clearHiddenAlerts && hideAlert)
   let someHidden = false
   return (
@@ -41,7 +41,9 @@ const Alert = ({ alerts, hiddenIds, clearHiddenAlerts, hideAlert }) => {
       }
       { canHide && someHidden && (
         <div className={styles.showHiddenBar}>
-          <span className={styles.showHiddenButton} onClick={clearHiddenAlerts}>Show hidden alerts.</span>
+          <div className={styles.showHiddenContainer}>
+            <span className={styles.showHiddenButton} onClick={clearHiddenAlerts}>Show Hidden Alerts</span>
+          </div>
         </div>
       )}
     </div>

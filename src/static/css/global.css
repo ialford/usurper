@@ -324,7 +324,7 @@ height:auto;
 }
 
 .alert {
-  padding: 20px;
+  padding: 10px 20px;
 }
 
 .alert a {
@@ -624,7 +624,7 @@ body.gold-blue #header h4 a {
   padding:16px 0 16px !important;
   transition-duration: .5s, .5s;
 }*/
-.sp-address .hours-display {
+.servicePointContainer .hours-display {
   width: 90%;
   margin-bottom: 10px;
 }
@@ -1584,11 +1584,11 @@ aside section {
   padding-bottom: 1.5em;
 }
 
-aside section h3, aside section h2, .Home section.sp-address h2 {
+aside section h3, aside section h2, .Home section.sp-name {
   margin-bottom: 8px;
 }
 
-aside section h2, .Home section.sp-address h2 {
+aside section h2, .Home section.sp-name {
   font-size: 24px;
   font-family: GPCMed, sans-serif;
   color: #001E45;
@@ -2203,98 +2203,12 @@ main blockquote p {
 }
 
 .event-card a, .news-card a {
+  display: block;
   text-decoration: none;
 }
 
 .news .author, .news .published {
   display: inline-block;
-}
-
-.event-card {
-  clear: left;
-  cursor: pointer;
-  margin-bottom: 21px;
-}
-
-.home .event-card:last-of-type {
-  margin-bottom: 36px;
-}
-
-.home .event-card {
-  margin-bottom: 20px;
-}
-
-.event-card .date, .event-card .time, .news .author, .news .published {
-  font-style: normal;
-  font-size: 14px;
-  padding: 6px 0px;
-  color: #5D6A83;
-  font-weight: normal;
-  text-transform: uppercase;
-  display: inline-block;
-}
-
-.event-card .time, .news .separator {
-  margin-left: 1em;
-  padding-left: 1em;
-
-}
-
-.event-card .time:before, .news .separator:before {
-  content: "•";
-  margin-left: -1em;
-  padding-right: 1em;
-  display: inline-block;
-}
-
-.event-card p {
-  font-weight: normal;
-  margin-bottom: 0px;
-}
-
-.event-card hr {
-  margin: 31px auto 0px;
-  border-color: #c6cbd6;
-  border-width: 1px;
-}
-
-.event-card hr {
-  margin: 40px auto 0px;
-}
-
-.event-card .date {
-  padding-top: 11px;
-  line-height: 20px;
-  padding-bottom: 2px;
-}
-
-.event-card-text {
-  display: inline-block;
-}
-
-.event-card .description {
-  margin-top: 15px;
-  margin-top: 8px;
-}
-
-.event-card img{
-  float: left;
-  border: solid 2px #fff;
-  -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.25);
-  -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.25);
-  box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.25);
-  margin-right: 15px;
-  max-width: 300px;
-  /* in case the text doesn't go to the bottom of the image, make sure it has the same margin as <hr/> top */
-  margin-bottom: 40px;
-}
-
-.home .event-card img {
-  margin-bottom: 31px;
-}
-
-.home .event-card .description {
-  display: none;
 }
 
 .event-link, .newsEventHeader {
@@ -2344,48 +2258,6 @@ main blockquote p {
   background-image: url('../images/map-marker.g.svg');
   background-size: 21px 26px;
   background-position:2px 0 ;
-}
-
-.dateFilter ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.dateFilter li {
-  list-style: none;
-  padding-left: 10px;
-  position: relative;
-  font-weight: bold;
-}
-
-.dateFilter .archive {
-  margin-top: 8px;
-}
-
-.dateFilter .collapsed::before {
-  color: #b3b3b3;
-  content: "›";
-  font-size: 25px;
-  left: 0;
-  position: absolute;
-  top: -2px;
-  speak: none;
-}
-
-.dateFilter .expanded::before {
-  color: #b3b3b3;
-  content: "›";
-  left: 0px;
-  position: absolute;
-  font-size: 25px;
-  top: -2px;
-  speak: none;
-
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
 }
 
 .yearFilter {
@@ -3297,10 +3169,12 @@ line-height: 2em;
   border-color: #5e5e5e;
 }
 
-.sp-address h4[itemprop] {
+.sp-address {
+  display: block;
   font-family: GPCMed, sans-serif;
   margin-left: 10px;
   margin-bottom: 10px;
+  text-align: left;
 }
 
 .news-card a {
@@ -3742,6 +3616,16 @@ img.favorite {
 img.favorite.white {
   filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(10deg) brightness(100%) contrast(100%);
 }
+
+.group.favorites h1,
+.group.favorites h2,
+.group.favorites h3 {
+  font-family: GPCMed, sans-serif;
+  font-size: 24px;
+  padding: 12px;
+}
+.group.favorites h1 img.favorite,
+.group.favorites h2 img.favorite,
 .group.favorites h3 img.favorite {
   margin-right: 10px;
 }
@@ -4101,6 +3985,21 @@ section.group .modal-footer button {
 
 .subject-checkbox-container input {
   margin: 0 4px 0 0;
+}
+
+.searchPagerSpace {
+  margin-top: 2rem;
+}
+
+.activeFilters {
+  background-color: #fff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  padding: 6px;
+}
+
+.activeFiltersLabel {
+  font-weight: bold;
+  margin-left: 6px;
 }
 
 @media only screen and (min-width: 48em) {
