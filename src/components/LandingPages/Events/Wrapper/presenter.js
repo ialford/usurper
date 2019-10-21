@@ -9,8 +9,6 @@ import Link from 'components/Interactive/Link'
 import FilterBox from 'components/Interactive/FilterBox'
 import Facet from 'components/Interactive/Facet'
 
-import Config from 'shared/Configuration'
-
 import './style.css'
 
 // These should exactly match the validations in the Contentful model
