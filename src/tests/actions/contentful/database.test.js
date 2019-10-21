@@ -70,8 +70,8 @@ describe('database fetch action creator', () => {
 
     it('should be able to fetch preview content', () => {
       nock(Config.contentfulAPI)
-        .get(() => true)
-        .query((queryObj) => queryObj.preview === 'true')
+        .get('/preview/query')
+        .query(true)
         .reply(200, successfulResponse)
 
       const expectedAction = {
@@ -80,8 +80,10 @@ describe('database fetch action creator', () => {
       }
 
       const store = mockStore()
-      store.dispatch(fetchLetter(requestLetter, true))
-      expect(nock.isDone()).toBe(true)
+      return store.dispatch(fetchLetter(requestLetter, true))
+        .then(() => {
+          expect(nock.isDone()).toBe(true)
+        })
     })
 
     describe('on success', () => {
@@ -194,8 +196,8 @@ describe('database fetch action creator', () => {
 
     it('should be able to fetch preview content', () => {
       nock(Config.contentfulAPI)
-        .get(() => true)
-        .query((queryObj) => queryObj.preview === 'true')
+        .get('/preview/query')
+        .query(true)
         .reply(200, successfulResponse)
 
       const expectedAction = {
@@ -203,8 +205,10 @@ describe('database fetch action creator', () => {
       }
 
       const store = mockStore()
-      store.dispatch(fetchDefaultDbFavorites(true))
-      expect(nock.isDone()).toBe(true)
+      return store.dispatch(fetchDefaultDbFavorites(true))
+        .then(() => {
+          expect(nock.isDone()).toBe(true)
+        })
     })
 
     describe('on success', () => {

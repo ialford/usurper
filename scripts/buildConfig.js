@@ -42,7 +42,9 @@ let handler = async () => {
 
     for(let i = 0; i < apiList.length; i++) {
       try {
-        outputs[apiList[i]] = findExport(apiList[i], stage, 'api-url', data['Exports'])
+        outputs[apiList[i]] = (process.env.CI && stage === 'test')
+          ? `https://${apiList[i]}.test.url`
+          : findExport(apiList[i], stage, 'api-url', data['Exports'])
       } catch(err) {
         console.error(`${RED}${err}${NC}`)
         error = true
@@ -72,7 +74,7 @@ let handler = async () => {
       process.exit(1)
     }
 
-    var stream = fs.createWriteStream(`${__dirname}/../../config/configParameters.js`);
+    var stream = fs.createWriteStream(`${__dirname}/../config/configParameters.js`);
     stream.once('open', function(fd) {
       stream.write("module.exports = {\n")
       for(let i = 0; i < apiList.length; i++) {
@@ -86,7 +88,7 @@ let handler = async () => {
         }
       }
       stream.write("  environment: '" + stage + "',\n")
-      stream.write("  version: '" + fs.readFileSync(`${__dirname}/../../VERSION`, 'utf8').trim() + "',\n")
+      stream.write("  version: '" + fs.readFileSync(`${__dirname}/../VERSION`, 'utf8').trim() + "',\n")
       stream.write("}\n")
       stream.end()
     })
