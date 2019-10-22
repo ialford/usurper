@@ -30,7 +30,7 @@ const ActiveFiltersList = (props) => {
             <span
               key={subject.sys.id}
               className={parentStyles.itemTag}
-              onClick={() => props.removeSubjectFromFilter(subject.sys.id)}
+              onClick={() => props.removeSubjectFromFilter(subject.fields.id)}
               title={`Click to remove subject: ${subject.linkText}`}
             >
               <img src={clearIcon} className={parentStyles.clearIcon} alt='X' />

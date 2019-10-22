@@ -3,6 +3,6 @@
 // Still, we need to represent the data in a way similar to the Contentful model so the UI can handle it correctly.
 export const multidisciplinarySubject = {
   sys: { id: 'multidisciplinary' },
-  fields: { title: 'Multidisciplinary' },
+  fields: { id: 'multidisciplinary', title: 'Multidisciplinary' },
   linkText: '\u2605 Multidisciplinary',
 }

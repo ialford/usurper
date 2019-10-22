@@ -129,7 +129,7 @@ export class DatabaseListContainer extends Component {
   }
 
   onSubjectFilterApply (selection) {
-    const subjectSelections = typy(selection).safeArray.map(subject => subject.sys.id)
+    const subjectSelections = typy(selection).safeArray.map(subject => subject.fields.id)
     const queryString = helper.buildQueryString(this.props.location.search, 'subject', subjectSelections)
     this.props.history.push(this.props.location.pathname + queryString)
   }
@@ -141,7 +141,7 @@ export class DatabaseListContainer extends Component {
 
   removeSubjectFromFilter (subjectId) {
     const newSubjectIds = this.props.activeSubjects.filter(activeSubject => activeSubject !== subjectId)
-    const newSubjects = typy(this.props.cfSubjects, 'data').safeArray.filter(sub => newSubjectIds.includes(sub.sys.id))
+    const newSubjects = typy(this.props.cfSubjects, 'data').safeArray.filter(sub => newSubjectIds.includes(sub.fields.id))
     this.onSubjectFilterApply(newSubjects)
   }
 

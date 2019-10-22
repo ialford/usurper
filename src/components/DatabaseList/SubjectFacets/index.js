@@ -14,12 +14,12 @@ export class SubjectFacets extends Component {
   }
 
   getFullSubjectFilters () {
-    return this.props.activeSubjects.map(id => this.props.subjects.find(subject => subject.sys.id === id))
+    return this.props.activeSubjects.map(id => this.props.subjects.find(subject => subject.fields.id === id))
   }
 
   onSubjectClick (subject) {
     const newSubjects = JSON.parse(JSON.stringify(this.getFullSubjectFilters()))
-    const existingIndex = newSubjects.findIndex(search => search.sys.id === subject.sys.id)
+    const existingIndex = newSubjects.findIndex(search => search.fields.id === subject.fields.id)
     if (existingIndex >= 0) {
       newSubjects.splice(existingIndex, 1)
     } else {
@@ -32,7 +32,7 @@ export class SubjectFacets extends Component {
   render () {
     const displaySubjects = helper.sortList(this.props.subjects, 'linkText', 'asc').map(subject => ({
       ...subject,
-      selected: this.props.activeSubjects.includes(subject.sys.id),
+      selected: this.props.activeSubjects.includes(subject.fields.id),
     }))
     return (
       <Presenter subjects={displaySubjects} onSubjectClick={this.onSubjectClick} />

@@ -12,21 +12,25 @@ let props
 
 const subject1 = {
   sys: { id: 'bar' },
+  fields: { id: 'a' },
   linkText: 'A_First record',
   selected: true,
 }
 const subject2 = {
   sys: { id: 'foo' },
+  fields: { id: 'b' },
   linkText: 'M_Middle 1',
   selected: true,
 }
 const subject3 = {
   sys: { id: 'baz' },
+  fields: { id: 'c' },
   linkText: 'Z_Last record',
   selected: true,
 }
 const newSubject = {
   sys: { id: 'foobar' },
+  fields: { id: 'd' },
   linkText: 'M_Middle 2',
   selected: false,
 }
@@ -49,9 +53,9 @@ describe('components/DatabaseList/SubjectFacets', () => {
         newSubject,
       ],
       activeSubjects: [
-        subject1.sys.id,
-        subject2.sys.id,
-        subject3.sys.id,
+        subject1.fields.id,
+        subject2.fields.id,
+        subject3.fields.id,
       ],
       onSubjectFilterApply: jest.fn(),
     }

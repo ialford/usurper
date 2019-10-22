@@ -21,11 +21,13 @@ describe('components/DatabaseList/ActiveFiltersList', () => {
       letter: 's',
       subjects: [
         {
-          sys: { id: 'music' },
+          sys: { id: '1' },
+          fields: { id: 'music' },
           linkText: 'Music Display Text',
         },
         {
-          sys: { id: 'math' },
+          sys: { id: '2' },
+          fields: { id: 'math' },
           linkText: 'Mathematics Display Text',
         }
       ],
@@ -50,7 +52,7 @@ describe('components/DatabaseList/ActiveFiltersList', () => {
     expect(found.exists()).toBe(true)
     found.simulate('click')
 
-    expect(props.removeSubjectFromFilter).toHaveBeenCalledWith(testSubject.sys.id)
+    expect(props.removeSubjectFromFilter).toHaveBeenCalledWith(testSubject.fields.id)
   })
 
   it('should remove letter filter when clicking', () => {

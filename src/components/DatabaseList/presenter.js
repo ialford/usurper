@@ -21,7 +21,7 @@ import styles from './style.module.css'
 const Loaded = (props) => {
   const titleLabel = 'Databases' + (props.filterValue ? `: SEARCH - ${props.filterValue.toUpperCase()}` : '')
   const openGraphDesc = (props.filterValue ? 'Search results for ' + props.filterValue : 'Databases matching filter')
-  const fullActiveSubjects = props.subjects.filter(sub => props.activeSubjects.includes(sub.sys.id))
+  const fullActiveSubjects = props.subjects.filter(sub => props.activeSubjects.includes(sub.fields.id))
   return (
     <section className='container-fluid content-area'>
       <PageTitle title={titleLabel} />
