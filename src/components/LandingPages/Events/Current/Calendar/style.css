@@ -1,0 +1,15 @@
+.sidebarCalendar {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.sidebarCalendar .react-datepicker__header {
+  background-color: #0C2340;
+}
+.sidebarCalendar .react-datepicker__header * {
+  color: #fff;
+}
+
+.sidebarCalendar .react-datepicker__month-container {
+  width: 100%;
+}

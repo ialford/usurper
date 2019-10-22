@@ -1,32 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import typy from 'typy'
+
 import Link from 'components/Interactive/Link'
 import FavoriteIcon from 'components/Account/Favorites/FavoriteIcon'
 import { KIND } from 'actions/personal/favorites'
 import SummaryLink from './SummaryLink'
 import { multidisciplinarySubject } from 'constants/staticData'
+import Tags from 'components/Interactive/Tags'
 
 import styles from '../../style.module.css'
 
 const DatabaseSummary = (props) => {
-  const subjectTags = props.item.fields.subjects.includes(multidisciplinarySubject)
-    ? [multidisciplinarySubject]
-    : props.item.fields.subjects
+  const subjectTags = () => {
+    const clickHandler = (tag) => {
+      props.applySubjectFilter(tag.key)
+    }
+    const subjectsArr = typy(props.item, 'fields.subjects').safeArray
+    return (subjectsArr.includes(multidisciplinarySubject) ? [multidisciplinarySubject] : subjectsArr).map(subject => ({
+      key: subject.fields.id,
+      value: subject.linkText,
+      onClick: clickHandler,
+    }))
+  }
+
   return (
     <section aria-label={props.item.fields.title} className={styles.dbSection}>
       <FavoriteIcon kind={KIND.databases} data={props.favoritesData} isFavorited={props.isFavorited} />
       <Link to={props.linkObject.heading.url} title={'Go to ' + props.item.fields.title} className='inline'>
         <h3 className={styles.dbItemTitle}>{props.item.fields.title}</h3>
       </Link>
-      { props.item.fields.subjects.length > 0 && (
-        <div aria-label='subjects'>
-          {subjectTags.map(subject => (
-            <span key={subject.sys.id} className={[styles.itemTag, styles.small].join(' ')} onClick={() => props.applySubjectFilter(subject)}>
-              {subject.linkText}
-            </span>
-          ))}
-        </div>
-      )}
+      <Tags groups={subjectTags()} />
       <div className={styles.dbSummary}>
         {props.linkObject.heading.description}
       </div>
