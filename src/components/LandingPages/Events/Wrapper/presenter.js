@@ -8,6 +8,7 @@ import SearchProgramaticSet from 'components/SearchProgramaticSet'
 import Link from 'components/Interactive/Link'
 import FilterBox from 'components/Interactive/FilterBox'
 import Facet from 'components/Interactive/Facet'
+import Config from 'shared/Configuration'
 
 import './style.css'
 
@@ -47,7 +48,7 @@ const Presenter = (props) => {
       <div className='row'>
         <div className='col-md-8 col-sm-7 col-xs-12 events-list'>
           <FilterBox value={props.filterValue} title='Search Events' onChange={props.onFilterChange} />
-          { (props.audienceFilter.length > 0 || props.typeFilter.length > 0) && (
+          { Config.features.eventsFilteringEnabled && (props.audienceFilter.length > 0 || props.typeFilter.length > 0) && (
             <ActiveFilters audienceFilter={props.audienceFilter} typeFilter={props.typeFilter} onRemove={props.onFacetRemove} />
           )}
           <br />
@@ -64,18 +65,22 @@ const Presenter = (props) => {
         </div>
         <div className='col-md-4 col-sm-5 col-xs-12 right events-sidebar'>
           { props.children }
-          <Facet
-            name='audience'
-            options={AUDIENCES}
-            selectedValues={props.audienceFilter}
-            onChangeCallback={props.onFacetApply}
-          />
-          <Facet
-            name='type'
-            options={TYPES}
-            selectedValues={props.typeFilter}
-            onChangeCallback={props.onFacetApply}
-          />
+          { Config.features.eventsFilteringEnabled && (
+            <React.Fragment>
+              <Facet
+                name='audience'
+                options={AUDIENCES}
+                selectedValues={props.audienceFilter}
+                onChangeCallback={props.onFacetApply}
+              />
+              <Facet
+                name='type'
+                options={TYPES}
+                selectedValues={props.typeFilter}
+                onChangeCallback={props.onFacetApply}
+              />
+            </React.Fragment>
+          )}
         </div>
       </div>
     </div>

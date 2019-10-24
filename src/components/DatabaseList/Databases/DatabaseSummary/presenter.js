@@ -7,6 +7,7 @@ import FavoriteIcon from 'components/Account/Favorites/FavoriteIcon'
 import { KIND } from 'actions/personal/favorites'
 import SummaryLink from './SummaryLink'
 import Tags from 'components/Interactive/Tags'
+import Config from 'shared/Configuration'
 
 import styles from '../../style.module.css'
 
@@ -28,7 +29,9 @@ const DatabaseSummary = (props) => {
       <Link to={props.linkObject.heading.url} title={'Go to ' + props.item.fields.title} className='inline'>
         <h3 className={styles.dbItemTitle}>{props.item.fields.title}</h3>
       </Link>
-      <Tags groups={subjectTags()} />
+      { Config.features.subjectFilteringEnabled && (
+        <Tags groups={subjectTags()} />
+      )}
       <div className={styles.dbSummary}>
         {props.linkObject.heading.description}
       </div>
