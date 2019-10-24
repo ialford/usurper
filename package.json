@@ -126,7 +126,8 @@
         "serviceNowBaseURL": "http://serviceNow.com/test?id=123",
         "features": {
           "favoritesEnabled": true,
-          "subjectFilteringEnabled": true
+          "subjectFilteringEnabled": true,
+          "eventsFilteringEnabled": true
         }
       }
     },

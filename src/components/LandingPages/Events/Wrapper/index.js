@@ -6,6 +6,7 @@ import typy from 'typy'
 import Presenter from './presenter'
 import PresenterFactory from 'components/APIInlinePresenterFactory'
 
+import Config from 'shared/Configuration'
 import * as statuses from 'constants/APIStatuses'
 import * as helper from 'constants/HelperFunctions'
 
@@ -48,16 +49,18 @@ export class EventsWrapperContainer extends Component {
   filter (searchFilter, audienceFilter, typeFilter) {
     // If there is a search value, search all events regardless of selected date or month
     let events = searchFilter ? this.props.events : this.props.filteredEvents
-    // Filter by facets
-    audienceFilter = audienceFilter || this.props.audienceFilter
-    if (audienceFilter.length) {
-      events = events.filter(event => {
-        return audienceFilter.some(currentAudience => typy(event.audience).safeArray.includes(currentAudience))
-      })
-    }
-    typeFilter = typeFilter || this.props.typeFilter
-    if (typeFilter.length) {
-      events = events.filter(event => typeFilter.includes(event.type))
+    if (Config.features.eventsFilteringEnabled) {
+      // Filter by facets
+      audienceFilter = audienceFilter || this.props.audienceFilter
+      if (audienceFilter.length) {
+        events = events.filter(event => {
+          return audienceFilter.some(currentAudience => typy(event.audience).safeArray.includes(currentAudience))
+        })
+      }
+      typeFilter = typeFilter || this.props.typeFilter
+      if (typeFilter.length) {
+        events = events.filter(event => typeFilter.includes(event.type))
+      }
     }
     // If searching, filter by search value and limit to 50 results
     if (searchFilter) {
