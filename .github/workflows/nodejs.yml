@@ -31,3 +31,4 @@ jobs:
         npm test
       env:
         CI: true
+      working-directory: src
